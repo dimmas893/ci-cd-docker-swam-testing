@@ -18,6 +18,10 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+    - name: Add remote server to known_hosts
+      run: |
+        ssh-keyscan -H ${{ secrets.HOST_IP }} >> ~/.ssh/known_hosts
+
     - name: Build and Push Docker Image
       run: |
         docker build -t sebelumcahaya/docker-swam:latest .
@@ -26,4 +30,4 @@ jobs:
 
     - name: Deploy to Docker Swarm
       run: |
-        ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "docker stack deploy -c /${{ secrets.HOST_PATH }} sebelumcahaya_stack"
+        ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "docker stack deploy -c /${{ secrets.HOST_PATH }} your_stack_name"
