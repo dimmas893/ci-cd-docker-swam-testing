@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-  res.send('Hello ananda dimmas budiarto spd mpd');
+  res.send('Hello ananda dimmas budiarto spd mpd updated');
 });
 
 app.get('/health', (req, res) => {

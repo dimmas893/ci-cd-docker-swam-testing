@@ -39,6 +39,6 @@ jobs:
     - name: Deploy to Docker Swarm 
       run: |
         ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "
-          docker service update --image sebelumcahaya/docker-swam:latest sebelumcahaya_stack_app || \
+          docker service update --force --image sebelumcahaya/docker-swam:latest sebelumcahaya_stack_app || \
           docker stack deploy -c ${{ secrets.HOST_PATH_DOCKER_COMPOSE }} sebelumcahaya_stack
         "
