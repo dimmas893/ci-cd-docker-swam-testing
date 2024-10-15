@@ -28,6 +28,6 @@ jobs:
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker push sebelumcahaya/docker-swam:latest
 
-    - name: Deploy to Docker Swarm
+    - name: Deploy to Docker Swarm 
       run: |
         ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "docker stack deploy -c ${{ secrets.HOST_PATH }} sebelumcahaya_stack"
