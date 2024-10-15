@@ -46,14 +46,14 @@ jobs:
       run: |
         ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "
           NEW_IMAGE_ID=\$(docker images -q sebelumcahaya/docker-swam:latest)
-          echo 'Latest Image ID: \$NEW_IMAGE_ID'
           ALL_IMAGES=\$(docker images -q sebelumcahaya/docker-swam | grep -v \$NEW_IMAGE_ID)
-          echo 'Old Images IDs: \$ALL_IMAGES'
           if [ ! -z \"\$ALL_IMAGES\" ]; then
-            docker rmi -f \$ALL_IMAGES || echo 'Old images already removed or in use'
+            echo 'Removing old images...'
+            docker rmi -f \$ALL_IMAGES || echo 'Some old images are still in use'
           else
             echo 'No old images to remove'
           fi
         "
+  
       
       
