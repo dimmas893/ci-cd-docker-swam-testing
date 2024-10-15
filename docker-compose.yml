@@ -10,7 +10,7 @@ services:
       update_config:
         parallelism: 1
         delay: 10s
-        failure_action: rollback
+        failure_action: rollback 
       restart_policy:
         condition: on-failure
       healthcheck:
