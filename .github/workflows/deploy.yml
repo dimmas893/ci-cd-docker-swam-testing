@@ -20,10 +20,10 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        docker build -t your-dockerhub-username/your-app-image:latest .
+        docker build -t sebelumcahaya/docker-swam:latest .
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push your-dockerhub-username/your-app-image:latest
+        docker push sebelumcahaya/docker-swam:latest
 
     - name: Deploy to Docker Swarm
       run: |
-        ssh your_user@your_server_ip "docker stack deploy -c /path-to-your-docker-compose.yml your_stack_name"
+        ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "docker stack deploy -c /${{ secrets.HOST_PATH }} sebelumcahaya_stack"
