@@ -6,21 +6,24 @@ services:
     ports:
       - "3000:3000"
     deploy:
-      replicas: 2                      # Menjalankan 2 instance (replica)
+      replicas: 2
       update_config:
-        parallelism: 1                  # Update 1 container sekaligus
-        delay: 10s                      # Delay 10 detik antara update tiap container
-        failure_action: rollback        # Jika update gagal, rollback ke versi sebelumnya
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
       restart_policy:
-        condition: on-failure           # Restart jika terjadi kegagalan      # Pastikan hanya berjalan di node manager
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]  # Health check endpoint
-      interval: 30s                     # Interval health check
-      timeout: 10s                      # Timeout untuk setiap health check
-      retries: 3                        # Retry 3 kali jika gagal
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == manager
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
     networks:
       - app-network
 
 networks:
   app-network:
-    driver: overlay                     # Menggunakan network overlay untuk Docker Swarm
+    driver: overlay
