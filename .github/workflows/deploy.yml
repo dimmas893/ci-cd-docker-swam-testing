@@ -32,10 +32,13 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        docker build -t sebelumcahaya/docker-swam:latest .
+        docker build --no-cache -t sebelumcahaya/docker-swam:latest .
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker push sebelumcahaya/docker-swam:latest
 
     - name: Deploy to Docker Swarm 
       run: |
-        ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "docker stack deploy -c ${{ secrets.HOST_PATH_DOCKER_COMPOSE }} sebelumcahaya_stack"
+        ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "
+          docker service update --image sebelumcahaya/docker-swam:latest sebelumcahaya_stack_app || \
+          docker stack deploy -c ${{ secrets.HOST_PATH_DOCKER_COMPOSE }} sebelumcahaya_stack
+        "
