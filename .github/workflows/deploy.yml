@@ -22,6 +22,14 @@ jobs:
       run: |
         ssh-keyscan -H ${{ secrets.HOST_IP }} >> ~/.ssh/known_hosts
 
+    - name: Pull latest code and install dependencies on remote server
+      run: |
+        ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "
+          cd ${{ secrets.HOST_PATH }} &&
+          git pull origin main &&
+          npm install
+        "
+
     - name: Build and Push Docker Image
       run: |
         docker build -t sebelumcahaya/docker-swam:latest .
