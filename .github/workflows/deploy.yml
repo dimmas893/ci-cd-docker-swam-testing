@@ -42,11 +42,17 @@ jobs:
           docker service update --force --image sebelumcahaya/docker-swam:latest sebelumcahaya_stack_app || \
           docker stack deploy -c ${{ secrets.HOST_PATH_DOCKER_COMPOSE }} sebelumcahaya_stack
         "
-    - name: Clean up unused Docker images
+        
+    - name: Clean up unused Docker containers and images
       run: |
         ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "
-          docker image prune -af || echo 'No unused images to remove'
+          # Hapus semua container yang exited
+          docker container prune -f || echo 'No containers to remove'
+          
+          # Hapus semua image yang tidak digunakan
+          docker image prune -af || echo 'No images to remove'
         "
+  
   
   
       
