@@ -42,12 +42,18 @@ jobs:
           docker service update --force --image sebelumcahaya/docker-swam:latest sebelumcahaya_stack_app || \
           docker stack deploy -c ${{ secrets.HOST_PATH_DOCKER_COMPOSE }} sebelumcahaya_stack
         "
-    - name: Clean up newly built Docker image
+    - name: Clean up old Docker images
       run: |
         ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "
-          IMAGE_ID=\$(docker images -q sebelumcahaya/docker-swam:latest) &&
-          if [ ! -z \"\$IMAGE_ID\" ]; then
-            docker rmi \$IMAGE_ID || echo 'Image already removed or in use'
+          NEW_IMAGE_ID=\$(docker images -q sebelumcahaya/docker-swam:latest)
+          echo 'Latest Image ID: \$NEW_IMAGE_ID'
+          ALL_IMAGES=\$(docker images -q sebelumcahaya/docker-swam | grep -v \$NEW_IMAGE_ID)
+          echo 'Old Images IDs: \$ALL_IMAGES'
+          if [ ! -z \"\$ALL_IMAGES\" ]; then
+            docker rmi -f \$ALL_IMAGES || echo 'Old images already removed or in use'
+          else
+            echo 'No old images to remove'
           fi
         "
+      
       
