@@ -17,7 +17,7 @@ services:
         constraints:
           - node.role == manager        # Pastikan hanya berjalan di node manager
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]  # Health check endpoint
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]  # Health check endpoint
       interval: 30s                     # Interval health check
       timeout: 10s                      # Timeout untuk setiap health check
       retries: 3                        # Retry 3 kali jika gagal
