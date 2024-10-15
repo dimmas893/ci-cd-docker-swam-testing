@@ -30,4 +30,4 @@ jobs:
 
     - name: Deploy to Docker Swarm
       run: |
-        ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "docker stack deploy -c /${{ secrets.HOST_PATH }} your_stack_name"
+        ssh ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "docker stack deploy -c ${{ secrets.HOST_PATH }} sebelumcahaya_stack"
